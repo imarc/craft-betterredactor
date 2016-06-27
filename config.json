@@ -1,0 +1,24 @@
+{
+    "buttons": [
+        "source",
+        "format",
+        "bold",
+        "italic",
+        "link",
+        "lists",
+        "table",
+        "file",
+        "image",
+        "video",
+        "alignment",
+        "fullscreen"
+    ],
+    "plugins": [
+        "alignment",
+        "codemirror",
+        "fullscreen",
+        "table",
+        "video",
+        "icons"
+    ]
+}
