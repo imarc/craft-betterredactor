@@ -1,0 +1,14 @@
+{
+    "name": "imarc/craft-betterredactor",
+    "description": "An improved starting configuration for Redactor II as well as way to add additional plugins.",
+    "homepage": "https://github.com/imarc/craft-betterredactor",
+    "type": "craft-plugin",
+    "license": "Apache",
+    "authors": [
+        {"name": "Kevin Hamer", "email": "kevin@imarc.com"}
+    ],
+
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
