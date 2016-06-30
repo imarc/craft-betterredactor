@@ -12,7 +12,7 @@
 /**
  * Rich Text input class
  */
-Craft.RedactorConfigInput = Garnish.Base.extend(
+Craft.BetterRedactorInput = Garnish.Base.extend(
 {
 	id: null,
 	linkOptions: null,
@@ -57,7 +57,7 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 		}
 
 		var callbacks = {
-			init: Craft.RedactorConfigInput.handleRedactorInit
+			init: Craft.BetterRedactorInput.handleRedactorInit
 		};
 
 		if (typeof this.redactorConfig.callbacks == typeof [])
@@ -106,9 +106,9 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 
 	initRedactor: function()
 	{
-		Craft.RedactorConfigInput.currentInstance = this;
+		Craft.BetterRedactorInput.currentInstance = this;
 		this.$textarea.redactor(this.redactorConfig);
-		delete Craft.RedactorConfigInput.currentInstance;
+		delete Craft.BetterRedactorInput.currentInstance;
 	},
 
 	onInitRedactor: function(redactor)
@@ -128,13 +128,13 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 			.on('focus', $.proxy(this, 'onEditorFocus'))
 			.on('blur', $.proxy(this, 'onEditorBlur'));
 
-		if (this.redactor.opts.toolbarFixed && !Craft.RedactorConfigInput.scrollPageOnReady)
+		if (this.redactor.opts.toolbarFixed && !Craft.BetterRedactorInput.scrollPageOnReady)
 		{
 			Garnish.$doc.on('ready', function() {
 				Garnish.$doc.trigger('scroll');
 			});
 
-			Craft.RedactorConfigInput.scrollPageOnReady = true;
+			Craft.BetterRedactorInput.scrollPageOnReady = true;
 		}
 	},
 
@@ -236,7 +236,7 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 		if (typeof this.assetSelectionModal == 'undefined')
 		{
 			this.assetSelectionModal = Craft.createElementSelectorModal('Asset', {
-				storageKey: 'RedactorConfigFieldType.ChooseImage',
+				storageKey: 'BetterRedactorFieldType.ChooseImage',
 				multiSelect: true,
 				sources: this.assetSources,
 				criteria: { locale: this.elementLocale, kind: 'image' },
@@ -278,7 +278,7 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 		if (typeof this.assetLinkSelectionModal == 'undefined')
 		{
 			this.assetLinkSelectionModal = Craft.createElementSelectorModal('Asset', {
-				storageKey: 'RedactorConfigFieldType.LinkToAsset',
+				storageKey: 'BetterRedactorFieldType.LinkToAsset',
 				sources: this.assetSources,
 				criteria: { locale: this.elementLocale },
 				onSelect: $.proxy(function(assets)
@@ -313,7 +313,7 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 			var settings = this.linkOptions[key];
 
 			this.linkOptionModals[key] = Craft.createElementSelectorModal(settings.elementType, {
-				storageKey: (settings.storageKey || 'RedactorConfigFieldType.LinkTo'+settings.elementType),
+				storageKey: (settings.storageKey || 'BetterRedactorFieldType.LinkTo'+settings.elementType),
 				sources: settings.sources,
 				criteria: $.extend({ locale: this.elementLocale }, settings.criteria),
 				onSelect: $.proxy(function(elements)
@@ -397,8 +397,8 @@ Craft.RedactorConfigInput = Garnish.Base.extend(
 	handleRedactorInit: function()
 	{
 		// `this` is the current Redactor instance.
-		// `Craft.RedactorConfigInput.currentInstance` is the current RedactorConfigInput instance
-		Craft.RedactorConfigInput.currentInstance.onInitRedactor(this);
+		// `Craft.BetterRedactorInput.currentInstance` is the current BetterRedactorInput instance
+		Craft.BetterRedactorInput.currentInstance.onInitRedactor(this);
 	}
 });
 

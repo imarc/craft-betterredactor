@@ -1,7 +1,11 @@
 <?php
 namespace Craft;
 
-class RedactorConfigFieldType extends RichTextFieldType
+/**
+ * This is based off of the RichTextFieldType that Craft has, but it overrides
+ * some functionality to make sure we can extend how this field works.
+ */
+class BetterRedactorFieldType extends RichTextFieldType
 {
 	// Properties
 	// =========================================================================
@@ -21,7 +25,7 @@ class RedactorConfigFieldType extends RichTextFieldType
 	 */
 	public function getName()
 	{
-		return Craft::t('Rich Text (Redactor Config)');
+		return Craft::t('Rich Text (Better Redactor)');
 	}
 
 	/**
@@ -64,7 +68,7 @@ class RedactorConfigFieldType extends RichTextFieldType
 			$transformOptions[] = array('label' => $transform->name, 'value' => $transform->id );
 		}
 
-		return craft()->templates->render('redactorconfig/settings', array(
+		return craft()->templates->render('betterredactor/settings', array(
 			'settings' => $this->getSettings(),
 			'configOptions' => $configOptions,
 			'assetSourceOptions' => $sourceOptions,
@@ -146,7 +150,7 @@ class RedactorConfigFieldType extends RichTextFieldType
 			$settings['direction'] = $locale->getOrientation();
 		}
 
-		craft()->templates->includeJs('new Craft.RedactorConfigInput('.JsonHelper::encode($settings).');');
+		craft()->templates->includeJs('new Craft.BetterRedactorInput('.JsonHelper::encode($settings).');');
 
 		if ($value instanceof RichTextData)
 		{
@@ -521,7 +525,7 @@ class RedactorConfigFieldType extends RichTextFieldType
         }
 
         // Include extra plugins
-        $pluginsDir = $_SERVER['DOCUMENT_ROOT'] . '/redactor';
+        $pluginsDir = craft()->path->getConfigPath() . '/redactor_plugins';
 
         if (file_exists($pluginsDir)) {
             $files = array_filter(
@@ -533,16 +537,16 @@ class RedactorConfigFieldType extends RichTextFieldType
 
             foreach ($files as $file) {
                 if (preg_match('(.js$)i', $file)) {
-                    craft()->templates->includeJsFile("/redactor/" . $file);
+                    craft()->templates->includeJs(IOHelper::getFileContents("$pluginsDir/$file"));
                 } elseif (preg_match('(.css$)i', $file)) {
-                    craft()->templates->includeCssFile("/redactor/" . $file);
+                    craft()->templates->includeCss(IOHelper::getFileContents("$pluginsDir/$file"));
                 }
             }
         }
 
 		craft()->templates->includeTranslations('Insert image', 'Insert URL', 'Choose image', 'Link', 'Link to an entry', 'Insert link', 'Unlink', 'Link to an asset', 'Link to a category');
 
-		craft()->templates->includeJsResource('redactorconfig/RedactorConfigInput.js');
+		craft()->templates->includeJsResource('betterredactor/BetterRedactorInput.js');
 
 		// Check to see if the Redactor has been translated into the current locale
 		if (craft()->language != craft()->sourceLanguage)
