@@ -58,9 +58,9 @@ class BetterRedactorPlugin extends BasePlugin
     {
         craft()->db->createCommand()->update(
             'fields',
-            ['type' => 'BetterRedactor'],
-            ['type' => 'RichText']
-        );
+            array('type' => 'BetterRedactor'),
+			array('type' => 'RichText')
+		);
 
         $config_folder = craft()->path->getConfigPath() . '/redactor_plugins';
 
@@ -94,8 +94,8 @@ class BetterRedactorPlugin extends BasePlugin
     {
         craft()->db->createCommand()->update(
             'fields',
-            ['type' => 'RichText'],
-            ['type' => 'BetterRedactor']
-        );
+            array('type' => 'RichText'),
+			array('type' => 'BetterRedactor')
+		);
     }
 }
