@@ -12,7 +12,7 @@ configuration:
 * It provides a Redactor plugin that configures icons for all the entire
   redactor toolbar
 * You can add additional JS/CSS files (plugins) to a new folder,
-  `craft/config/redactor_plugins`, which are automatically included
+  `public/redactor_plugins`, which are automatically included
 * You can still create and use custom redactor configurations by adding them to
   the `craft/config/redactor` folder.
 

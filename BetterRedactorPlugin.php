@@ -14,7 +14,7 @@ namespace Craft;
  *   * uses codemirror and alignment
  *   * provides a less hacky way to add additional redactor plugins.
  *
- * CSS and JS files can be added to craft/config/redactor_plugins/ and they
+ * CSS and JS files can be added to public/redactor_plugins/ and they
  * will automatically be included. This plugin uses the same
  * craft/config/redactor/ JSON configurations that Craft typically uses.
  *
@@ -36,7 +36,7 @@ class BetterRedactorPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.2';
+        return '0.3.x';
     }
 
     public function getDeveloper()
@@ -51,7 +51,7 @@ class BetterRedactorPlugin extends BasePlugin
 
     /**
      * When installed, this plugin converts RichText fields into BetterRedactor
-     * fields. It also creates a folder, craft/config/redactor_plugins, and
+     * fields. It also creates a folder, public/redactor_plugins, and
      * populates it with some starting plugins.
      */
     public function onAfterInstall()
@@ -59,27 +59,27 @@ class BetterRedactorPlugin extends BasePlugin
         craft()->db->createCommand()->update(
             'fields',
             array('type' => 'BetterRedactor'),
-			array('type' => 'RichText')
-		);
+            array('type' => 'RichText')
+        );
 
-        $config_folder = craft()->path->getConfigPath() . '/redactor_plugins';
+        $publicDirectory = craft()->path->appPath . '../../public/redactor_plugins';
 
-        if (!IOHelper::folderExists($config_folder)) {
-            $initial_folder = craft()->path->getPluginsPath()
+        if (!IOHelper::folderExists($publicDirectory)) {
+            $initialDirectory = craft()->path->getPluginsPath()
                 .  '/betterredactor/redactor_plugins';
 
             $files = array_filter(
-                scandir($initial_folder),
-                function($file) use ($initial_folder) {
-                    return is_file("$initial_folder/$file");
+                scandir($initialDirectory),
+                function($file) use ($initialDirectory) {
+                    return is_file("$initialDirectory/$file");
                 }
             );
 
             foreach ($files as $file) {
                 if (preg_match('((.js|.css)$)i', $file)) {
                     IOHelper::copyFile(
-                        "$initial_folder/$file",
-                        "$config_folder/$file"
+                        "$initialDirectory/$file",
+                        "$publicDirectory/$file"
                     );
                 }
             }
@@ -95,7 +95,7 @@ class BetterRedactorPlugin extends BasePlugin
         craft()->db->createCommand()->update(
             'fields',
             array('type' => 'RichText'),
-			array('type' => 'BetterRedactor')
-		);
+            array('type' => 'BetterRedactor')
+        );
     }
 }

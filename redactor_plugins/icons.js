@@ -10,7 +10,6 @@
         return {
             init: function ()
             {
-                console.log('init icons');
                 var icons = {
                     'alignment': '<i class="fa fa-align-justify"></i>',
                     'format': '<i class="fa fa-paragraph"></i>',
@@ -24,18 +23,15 @@
 
                 $.each(this.button.all(), $.proxy(function(i,s)
                 {
-
                     window.redactortmp = this.button;
 
                     var key = $(s).attr('rel');
-
-                    console.log(key, icons[key]);
 
                     if (typeof icons[key] !== 'undefined')
                     {
                         var icon = icons[key];
                         var button = this.button.get(key);
-                        console.log('setting', key, icon);
+                        
                         this.button.setIcon(button, icon);
                     }
 

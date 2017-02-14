@@ -13,7 +13,13 @@ class BetterRedactorFieldType extends RichTextFieldType
 	/**
 	 * @var string
 	 */
-	private static $_redactorLang = 'en';
+	static private $_redactorLang = 'en';
+
+    /**
+     * This tracks whether the CSS/JS resources still need to be loaded.
+     * @var bool
+     */
+    static private $_resourcesLoaded = false;
 
 	// Public Methods
 	// =========================================================================
@@ -499,6 +505,12 @@ class BetterRedactorFieldType extends RichTextFieldType
 	 */
 	private function _includeFieldResources()
 	{
+        if (static::$_resourcesLoaded) {
+            return;
+        } else {
+            static::$_resourcesLoaded = true;
+        }
+
 		craft()->templates->includeCssResource('lib/redactor/redactor.min.css');
 		craft()->templates->includeJsResource('lib/redactor/redactor.js');
 
@@ -525,7 +537,7 @@ class BetterRedactorFieldType extends RichTextFieldType
         }
 
         // Include extra plugins
-        $pluginsDir = craft()->path->getConfigPath() . '/redactor_plugins';
+        $pluginsDir = craft()->path->appPath . '../../public/redactor_plugins';
 
         if (file_exists($pluginsDir)) {
             $files = array_filter(
@@ -537,9 +549,9 @@ class BetterRedactorFieldType extends RichTextFieldType
 
             foreach ($files as $file) {
                 if (preg_match('(.js$)i', $file)) {
-                    craft()->templates->includeJs(IOHelper::getFileContents("$pluginsDir/$file"));
+                    craft()->templates->includeJsFile("/redactor_plugins/$file");
                 } elseif (preg_match('(.css$)i', $file)) {
-                    craft()->templates->includeCss(IOHelper::getFileContents("$pluginsDir/$file"));
+                    craft()->templates->includeCssFile("/redactor_plugins/$file");
                 }
             }
         }
