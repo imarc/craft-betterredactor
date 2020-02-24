@@ -1,7 +1,7 @@
-Better Redactor
-===============
+Better Redactor -- DEPRECATED
+=============================
 
-Better Redactor is a [Craft](https://craftcms.com/) plugin that provides a more
+Better Redactor is a [Craft 2](https://docs.craftcms.com/v2/) plugin that provides a more
 feature rich initial configuration rich text fields.
 
 Better Redactor uses the same [Redactor](https://imperavi.com/redactor/)
